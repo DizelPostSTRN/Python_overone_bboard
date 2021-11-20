@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from bboard3.views import  index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('bboard3/', index)
 ]
