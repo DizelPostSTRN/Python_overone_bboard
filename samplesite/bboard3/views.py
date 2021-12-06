@@ -1,9 +1,22 @@
 from django.shortcuts import render
 from .models import Bb, Rubric
+from django.views.generic.edit import CreateView
+from .forms import BbForm
+
+class BbCreateView(CreateView):
+    template_name = 'bboard3/create.html'
+    form_class = BbForm
+    success_url = '/bboard3/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rubrics'] = Rubric.objects.all()
+        return context
+
 
 def index(request):
     bbs = Bb.objects.order_by('-published')
-    return render(request, 'bboard/index.html', context={'bbs': bbs})
+    return render(request, 'bboard3/index.html', context={'bbs': bbs})
 
 def by_rubric(request, rubric_id):
     bbs = Bb.objects.filter(rubric=rubric_id)
@@ -11,4 +24,4 @@ def by_rubric(request, rubric_id):
     current_rubric = Rubric.objects.get(pk=rubric_id)
     context = {'bbs': bbs, 'rubrics': rubrics,
                'current_rubric': current_rubric}
-    return render(request, 'bboard/by_rubric.html', context)
+    return render(request, 'bboard3/by_rubric.html', context)
