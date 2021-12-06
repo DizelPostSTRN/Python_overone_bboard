@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .forms import BbForm
 
+
 class BbCreateView(CreateView):
     template_name = 'bboard3/create.html'
     form_class = BbForm
@@ -16,8 +17,11 @@ class BbCreateView(CreateView):
 
 
 def index(request):
-    bbs = Bb.objects.order_by('-published')
-    return render(request, 'bboard3/index.html', context={'bbs': bbs})
+    bbs = Bb.objects.all()
+    rubrics = Rubric.objects.all()
+    context = {'bbs': bbs, 'rubrics': rubrics}
+    return render(request, 'bboard3/index.html', context)
+
 
 def by_rubric(request, rubric_id):
     bbs = Bb.objects.filter(rubric=rubric_id)
