@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from .models import Bb, Rubric
+from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .forms import BbForm
 
 class BbCreateView(CreateView):
     template_name = 'bboard3/create.html'
     form_class = BbForm
-    success_url = '/bboard3/'
+    success_url = reverse_lazy('index')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
